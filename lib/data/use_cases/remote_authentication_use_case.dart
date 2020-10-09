@@ -3,6 +3,24 @@ import 'package:meta/meta.dart';
 import '../../domain/use_cases/use_cases.dart';
 import '../http/http.dart';
 
+class RemoteAuthenticationParams {
+  final String email;
+  final String password;
+
+  RemoteAuthenticationParams({
+    @required this.email,
+    @required this.password,
+  });
+
+  factory RemoteAuthenticationParams.fromDomain(AuthenticationParams params) =>
+      RemoteAuthenticationParams(
+        email: params.email,
+        password: params.password,
+      );
+
+  Map toJson() => {'email': email, 'password': password};
+}
+
 class RemoteAuthenticationUseCase {
   final HttpClient httpClient;
   final String url;
@@ -13,10 +31,11 @@ class RemoteAuthenticationUseCase {
   });
 
   Future<void> auth(AuthenticationParams params) async {
+    final body = RemoteAuthenticationParams.fromDomain(params).toJson();
     await httpClient.request(
       url: url,
       method: 'post',
-      body: params.toJson(),
+      body: body,
     );
   }
 }
