@@ -24,7 +24,7 @@ class RemoteAuthenticationParams {
   Map toJson() => {'email': email, 'password': password};
 }
 
-class RemoteAuthenticationUseCase {
+class RemoteAuthenticationUseCase implements AuthenticationUseCase {
   final HttpClient httpClient;
   final String url;
 
